@@ -12,7 +12,7 @@
 #include <limits.h>
 
 #define _GPS_LIB_NAME "iFlightGPSLib"
-#define _GPS_LIB_VERSION "1.1.2r13"
+#define _GPS_LIB_VERSION "1.1.2"
 #define _GPS_LIB_AUTHOR "J. Edelbrock"
 #define _GPS_LIB_AUTHOR_EMAIL "synroot@synisterj.com"
 #define _GPS_LIB_AUTHOR_SITE "https://www.synisterj.com"
