@@ -272,7 +272,7 @@ void loop()
   }
 }
 /*
- * LCD control function. Not used as of yet...
+ * LCD control function.
  */
 void lcd_write( String text, int cursln1, int cursln2, bool clrlcd, bool scroll )
 {
