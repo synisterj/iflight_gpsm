@@ -1,15 +1,15 @@
 {
   "name": "iFlightGPSLib",
-  "description": "A new, customizable Arduino iFlight GPS module NMEA parsing library",
-  "keywords": "gps,iflight,NMEA",
+  "description": "A new, avr arch compatibal and customizable Arduino to iFlight GPS module NMEA parsing library",
+  "keywords": "gps,iflight,avr,NMEA",
   "authors":
     {
-       "name": "J. Edelbrock",
+       "name": "J. E.",
        "url": "https://www.synisterj.com",
     },
   "repository":{
     "type": "git",
-    "url": "https://github.com/synisterj/iflight_gpsm_lib"
+    "url": "https://github.com/synisterj/iflight_gpsm"
   },
   "version": "1.1.2r13",
   "frameworks": "arduino",
