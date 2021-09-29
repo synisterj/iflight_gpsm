@@ -11,7 +11,7 @@
     "type": "git",
     "url": "https://github.com/synisterj/iflight_gpsm"
   },
-  "version": "1.1.2r13",
+  "version": "1.1.2",
   "frameworks": "arduino",
   "platforms": "*"
 }
