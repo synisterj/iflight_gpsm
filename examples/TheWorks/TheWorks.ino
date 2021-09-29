@@ -85,7 +85,7 @@ void loop()
           lcd_write( lcd_get_loc(), 0, 0, true, true ); // Write it to the LCD and make it scroll.
         }
       btn_state = digitalRead( btn ); // Check our button state(HIGH 5v 10kohm) to see if it's been pressed.
-      delay( 100 ); // Give a little delay to read the button if pressed.
+      delay( 300 ); // Give a little delay to read the button if pressed.
       if ( btn_state == HIGH ) { // If the button has been pressed.
         btn_pos++; // Increment our button position.
       }
@@ -104,7 +104,7 @@ void loop()
             lcd_write( lcd_get_date(), 0, 0, true, true ); // Write it to the LCD and make it scroll.
           }
       btn_state = digitalRead(btn);
-      delay(100);
+      delay(300);
       if ( btn_state == HIGH ) {
         btn_pos++;  
       }
@@ -123,7 +123,7 @@ void loop()
             lcd_write( lcd_get_time(), 0, 0, true, true ); 
           }
       btn_state = digitalRead(btn);
-      delay(100);
+      delay(300);
       if ( btn_state == HIGH ) {
         btn_pos++;  
       }
@@ -142,7 +142,7 @@ void loop()
             lcd_write( lcd_get_spd(), 0, 0, true, true );  
           }
       btn_state = digitalRead(btn);
-      delay(100);
+      delay(300);
       if ( btn_state == HIGH ) {
         btn_pos++;  
       }
@@ -161,7 +161,7 @@ void loop()
             lcd_write( lcd_get_course(), 0, 0, true, true );  
           }
       btn_state = digitalRead(btn);
-      delay(100);
+      delay(300);
       if ( btn_state == HIGH ) {
         btn_pos++;  
       }
@@ -180,7 +180,7 @@ void loop()
             lcd_write( lcd_get_altitude(), 0, 0, true, true );  
           }
       btn_state = digitalRead(btn);
-      delay(100);
+      delay(300);
       if ( btn_state == HIGH ) {
         btn_pos++;  
       }
@@ -199,7 +199,7 @@ void loop()
             lcd_write( lcd_get_satellites(), 0, 0, true, true );  
           }
       btn_state = digitalRead(btn);
-      delay(100);
+      delay(300);
       if ( btn_state == HIGH ) {
         btn_pos++;  
       }
@@ -218,7 +218,7 @@ void loop()
             lcd_write(lcd_get_hdop(), 0, 0, true, true );  
           }
       btn_state = digitalRead(btn);
-      delay(100);
+      delay(300);
       if ( btn_state == HIGH ) {
         btn_pos++;  
       }
@@ -237,7 +237,26 @@ void loop()
             lcd_write(lcd_get_diag(), 0, 0, true, true );  
           }
       btn_state = digitalRead(btn);
-      delay(100);
+      delay(300);
+      if ( btn_state == HIGH ) {
+        btn_pos++;  
+      }
+    }
+    btn_state = 0;
+    break;
+    case 10:
+    if ( DEBUG ) { Serial.println("DEBUG: #10 Checksums"); }
+    LCD.clear();
+    lcd_write("#10 Checksums", 0, 0, false, false);
+    while ( btn_pos == 9 ) {
+      while (GPSMS.available() > 0)
+        GPS.encode(GPSMS.read());
+          if (millis() - last > 5000)
+          {
+            lcd_write(lcd_get_chksum(), 0, 0, true, true );  
+          }
+      btn_state = digitalRead(btn);
+      delay(300);
       if ( btn_state == HIGH ) {
         btn_pos++;  
       }
@@ -430,6 +449,19 @@ String lcd_get_diag()
     " Sentences-with-Fix=" +
     String(GPS.sentencesWithFix()) +
     " Failed-checksum=" +
+    String(GPS.failedChecksum()) +
+    " Passed-checksum=" + 
+    String(GPS.passedChecksum());
+  if ( DEBUG ) { Serial.println(); Serial.println( str ); }
+  return str;
+}
+/*
+ * Get checksums and return as string.
+ */ 
+String lcd_get_chksum()
+{
+  String str =
+    "Failed-checksum=" +
     String(GPS.failedChecksum()) +
     " Passed-checksum=" + 
     String(GPS.passedChecksum());
