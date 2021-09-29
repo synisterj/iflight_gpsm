@@ -1,7 +1,7 @@
 /*
  * Included libs...
  */
-#include <iFlightGPSLib.h>
+#include <iFlightGPSM.h>
 #include <SoftwareSerial.h>
 #include <LiquidCrystal.h>
 /*
