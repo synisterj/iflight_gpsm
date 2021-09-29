@@ -10,6 +10,7 @@
 #define DEBUG true
 #define APP_VERSION "1.2.4"
 #define LIB_VERSION iFlightGPSLib::libVersion()
+#define LIB_AUTHOR iFlightGPSLib::libAuthor()
 /* Constant variables for rx/tx 
  * pins, LCD pins, Arduino and
  * GPS module baud rates.
@@ -54,7 +55,7 @@ void setup()
    delay( 1000 );
    LCD.clear();
    lcd_write("Using iFlightGPSLib", 0, 0, false, false);
-   lcd_write("Version: " + String( LIB_VERSION ), 0, 1, false, false);
+   lcd_write("Version: " + String( LIB_VERSION ) + " " + String(LIB_AUTHOR), 0, 1, false, false);
    delay( 1000 );
    LCD.clear();
    if ( DEBUG ) { Serial.print( F( "Using application version: " ) ); Serial.println( APP_VERSION ); }
