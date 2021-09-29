@@ -47,11 +47,11 @@ void setup()
   LCD.begin(16, 2);
   GPSMS.begin( GB );
   pause(1500);
-  if ( DEBUG ) { Serial.print( F( "Using application version: " ) ); Serial.println( APP_VERSION ); }
+  if ( DEBUG ) { Serial.print( F( "DEBUG: Using application version: " ) ); Serial.println( APP_VERSION ); }
   delay( 100 );
-  if ( DEBUG ) { Serial.print( F( "Using iFlightGPSM library version: " ) ); Serial.println( LIB_VERSION ); }
+  if ( DEBUG ) { Serial.print( F( "DEBUG: Using iFlightGPSM library version: " ) ); Serial.println( LIB_VERSION ); }
   delay( 100 );
-  if ( DEBUG ) { Serial.print( F( "iFlightGPSM library author: " ) ); Serial.println( LIB_AUTHOR ); }
+  if ( DEBUG ) { Serial.print( F( "DEBUG: iFlightGPSM library author: " ) ); Serial.println( LIB_AUTHOR ); }
   /*
    * Display my custom iFlightGPSLib version.
    */
@@ -99,7 +99,6 @@ void loop()
         if ( GPS.location.isUpdated() ) // If data has been updated...
         {
           lcd_write( get_loc(), 0, 1, false, true ); // Write it to the LCD and make it scroll.
-          delay(2000);
         }
       btn_state = digitalRead( btn ); // Check our button state(HIGH 5v 10kohm) to see if it's been pressed.
       delay( 300 ); // Give a little delay to read the button if pressed.
@@ -119,7 +118,6 @@ void loop()
           if (GPS.date.isUpdated())
           {
             lcd_write( get_date(), 0, 1, false, true ); // Write it to the LCD and make it scroll.
-            delay(2000);
           }
       btn_state = digitalRead(btn);
       delay(300);
@@ -347,7 +345,7 @@ String get_loc()
     String(GPS.location.lat(), 6) +
     " Long=" + 
     String(GPS.location.lng(), 6);
-  if ( DEBUG ) { Serial.println( str ); }
+  if ( DEBUG ) { Serial.println( "DEBUG: " + str ); Serial.println(); }
   return str;
 }
 /*
@@ -366,7 +364,7 @@ String get_date()
     String(GPS.date.month()) +
     " Day=" +
     String(GPS.date.day());
-  if ( DEBUG ) { Serial.println( str ); }
+  if ( DEBUG ) { Serial.println( "DEBUG: " + str ); Serial.println(); }
   return str;
 }
 /*
@@ -387,7 +385,7 @@ String get_time()
     String(GPS.time.second()) +
     " Hundredths=" + 
     String(GPS.time.centisecond());
-  if ( DEBUG ) { Serial.println( str ); }
+  if ( DEBUG ) { Serial.println( "DEBUG: " + str ); Serial.println(); }
   return str;
 }
 /*
@@ -408,7 +406,7 @@ String get_spd()
     String(GPS.speed.mps()) +
     " km/h=" +
     String(GPS.speed.kmph());
-  if ( DEBUG ) { Serial.println( str ); }
+  if ( DEBUG ) { Serial.println( "DEBUG: " + str ); Serial.println(); }
   return str;
 }
 /*
@@ -423,7 +421,7 @@ String get_course()
     String(GPS.course.value()) +
     " Deg=" +
     String(GPS.course.deg());
-  if ( DEBUG ) { Serial.println( str ); }
+  if ( DEBUG ) { Serial.println( "DEBUG: " + str ); Serial.println(); }
   return str;
 }
 /*
@@ -444,7 +442,7 @@ String get_altitude()
     String(GPS.altitude.kilometers()) +
     " Feet=" +
     String(GPS.altitude.feet());
-  if ( DEBUG ) { Serial.println( str ); }
+  if ( DEBUG ) { Serial.println( "DEBUG: " + str ); Serial.println(); }
   return str;
 }
 /*
@@ -457,7 +455,7 @@ String get_satellites()
     String(GPS.satellites.age()) +
     "ms Value=" +
     String(GPS.satellites.value());
-  if ( DEBUG ) { Serial.println( str ); }
+  if ( DEBUG ) { Serial.println( "DEBUG: " + str ); Serial.println(); }
   return str;
 }
 /*
@@ -472,7 +470,7 @@ String get_hdop()
     String(GPS.hdop.value()) +
     " hdop=" +
     String(GPS.hdop.hdop());
-  if ( DEBUG ) { Serial.println( str ); }
+  if ( DEBUG ) { Serial.println( "DEBUG: " + str ); Serial.println(); }
   return str;
 }
 /*
@@ -489,7 +487,7 @@ String get_diag()
     String(GPS.failedChecksum()) +
     " Passed-checksum=" + 
     String(GPS.passedChecksum());
-  if ( DEBUG ) { Serial.println(); Serial.println( str ); }
+  if ( DEBUG ) { Serial.println(); Serial.println( "DEBUG: " + str ); Serial.println(); }
   return str;
 }
 /*
@@ -500,7 +498,7 @@ String get_fchksum()
   String str =
     "Failed-checksum=" +
     String(GPS.failedChecksum());
-  if ( DEBUG ) { Serial.println(); Serial.println( str ); }
+  if ( DEBUG ) { Serial.println(); Serial.println( "DEBUG: " + str ); Serial.println(); }
   return str;
 }
 /*
@@ -511,7 +509,7 @@ String get_pchksum()
   String str =
     " Passed-checksum=" + 
     String(GPS.passedChecksum());
-  if ( DEBUG ) { Serial.println(); Serial.println( str ); }
+  if ( DEBUG ) { Serial.println(); Serial.println( "DEBUG: " + str ); Serial.println(); }
   return str;
 }
 /*
