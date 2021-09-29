@@ -1,4 +1,4 @@
-#include "iFlightGPSLib.h"
+#include "iFlightGPSM.h"
 
 #include <string.h>
 #include <ctype.h>
