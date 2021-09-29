@@ -46,20 +46,35 @@ void setup()
   }
   LCD.begin(16, 2);
   GPSMS.begin( GB );
+  pause(1500);
+  if ( DEBUG ) { Serial.print( F( "Using application version: " ) ); Serial.println( APP_VERSION ); }
+  delay( 100 );
+  if ( DEBUG ) { Serial.print( F( "Using iFlightGPSM library version: " ) ); Serial.println( LIB_VERSION ); }
+  delay( 100 );
+  if ( DEBUG ) { Serial.print( F( "iFlightGPSM library author: " ) ); Serial.println( LIB_AUTHOR ); }
   /*
    * Display my custom iFlightGPSLib version.
    */
-   LCD.clear();
-   lcd_write("Using Application", 0, 0, false, false);
-   lcd_write("Version: " + String( APP_VERSION ), 0, 1, false, false);
-   delay( 1000 );
-   LCD.clear();
-   lcd_write("Using iFlightGPSLib", 0, 0, false, false);
-   lcd_write("Version: " + String( LIB_VERSION ) + " " + String(LIB_AUTHOR), 0, 1, false, false);
-   delay( 1000 );
-   LCD.clear();
-   if ( DEBUG ) { Serial.print( F( "Using application version: " ) ); Serial.println( APP_VERSION ); }
-   if ( DEBUG ) { Serial.print( F( "Using iFlightGPSLib version: " ) ); Serial.println( LIB_VERSION ); }
+  LCD.clear();
+  lcd_write("Using Application", 0, 0, false, false);
+  lcd_write("Version: " + String( APP_VERSION ), 0, 1, false, false);
+  delay( 1000 );
+  LCD.clear();
+  lcd_write("Using iFlightGPSLib", 0, 0, false, false);
+  lcd_write("Ver: " + String( LIB_VERSION ) + " by " + String(LIB_AUTHOR), 0, 1, false, false);
+  delay( 1000 );
+  LCD.clear();
+}
+/*
+ * Experimental.
+ */
+void pause(unsigned long millisecs)
+{
+  unsigned long ms = millis() + millisecs;
+  while (millisecs <= ms){
+    millisecs++;
+    delay(1);
+  }
 }
 /*
  * Main loop...
@@ -83,7 +98,8 @@ void loop()
         GPS.encode( GPSMS.read() ); // If and whille available, read the data.
         if ( GPS.location.isUpdated() ) // If data has been updated...
         {
-          lcd_write( lcd_get_loc(), 0, 0, true, true ); // Write it to the LCD and make it scroll.
+          lcd_write( get_loc(), 0, 1, false, true ); // Write it to the LCD and make it scroll.
+          delay(2000);
         }
       btn_state = digitalRead( btn ); // Check our button state(HIGH 5v 10kohm) to see if it's been pressed.
       delay( 300 ); // Give a little delay to read the button if pressed.
@@ -102,7 +118,8 @@ void loop()
         GPS.encode(GPSMS.read());
           if (GPS.date.isUpdated())
           {
-            lcd_write( lcd_get_date(), 0, 0, true, true ); // Write it to the LCD and make it scroll.
+            lcd_write( get_date(), 0, 1, false, true ); // Write it to the LCD and make it scroll.
+            delay(2000);
           }
       btn_state = digitalRead(btn);
       delay(300);
@@ -121,7 +138,7 @@ void loop()
         GPS.encode(GPSMS.read());
           if (GPS.time.isUpdated())
           {
-            lcd_write( lcd_get_time(), 0, 0, true, true ); 
+            lcd_write( get_time(), 0, 0, false, true ); 
           }
       btn_state = digitalRead(btn);
       delay(300);
@@ -140,7 +157,7 @@ void loop()
         GPS.encode(GPSMS.read());
           if (GPS.speed.isUpdated())
           {
-            lcd_write( lcd_get_spd(), 0, 0, true, true );  
+            lcd_write( get_spd(), 0, 1, false, true );  
           }
       btn_state = digitalRead(btn);
       delay(300);
@@ -159,7 +176,7 @@ void loop()
         GPS.encode(GPSMS.read());
           if (GPS.course.isUpdated())
           {
-            lcd_write( lcd_get_course(), 0, 0, true, true );  
+            lcd_write( get_course(), 0, 1, false, true );  
           }
       btn_state = digitalRead(btn);
       delay(300);
@@ -178,7 +195,7 @@ void loop()
         GPS.encode(GPSMS.read());
           if (GPS.altitude.isUpdated())
           {
-            lcd_write( lcd_get_altitude(), 0, 0, true, true );  
+            lcd_write( get_altitude(), 0, 1, false, true );  
           }
       btn_state = digitalRead(btn);
       delay(300);
@@ -197,7 +214,7 @@ void loop()
         GPS.encode(GPSMS.read());
           if (GPS.satellites.isUpdated())
           {
-            lcd_write( lcd_get_satellites(), 0, 0, true, true );  
+            lcd_write( get_satellites(), 0, 1, false, true );  
           }
       btn_state = digitalRead(btn);
       delay(300);
@@ -216,7 +233,7 @@ void loop()
         GPS.encode(GPSMS.read());
           if (GPS.hdop.isUpdated())
           {
-            lcd_write(lcd_get_hdop(), 0, 0, true, true );  
+            lcd_write(get_hdop(), 0, 1, false, true );  
           }
       btn_state = digitalRead(btn);
       delay(300);
@@ -235,7 +252,7 @@ void loop()
         GPS.encode(GPSMS.read());
           if (millis() - last > 5000)
           {
-            lcd_write(lcd_get_diag(), 0, 0, true, true );  
+            lcd_write(get_diag(), 0, 1, false, true );  
           }
       btn_state = digitalRead(btn);
       delay(300);
@@ -246,15 +263,34 @@ void loop()
     btn_state = 0;
     break;
     case 10:
-    if ( DEBUG ) { Serial.println("DEBUG: #10 Checksums"); }
+    if ( DEBUG ) { Serial.println("DEBUG: #10 Fail Packets"); }
     LCD.clear();
-    lcd_write("#10 Checksums", 0, 0, false, false);
-    while ( btn_pos == 9 ) {
+    lcd_write("#10 Fail Packets", 0, 0, false, false);
+    while ( btn_pos == 10 ) {
       while (GPSMS.available() > 0)
         GPS.encode(GPSMS.read());
           if (millis() - last > 5000)
           {
-            lcd_write(lcd_get_chksum(), 0, 0, true, true );  
+            lcd_write(get_fchksum(), 0, 1, false, true );  
+          }
+      btn_state = digitalRead(btn);
+      delay(300);
+      if ( btn_state == HIGH ) {
+        btn_pos++;  
+      }
+    }
+    btn_state = 0;
+    break;
+    case 11:
+    if ( DEBUG ) { Serial.println("DEBUG: #11 Pass Packets"); }
+    LCD.clear();
+    lcd_write("#11 Pass Packets", 0, 0, false, false);
+    while ( btn_pos == 11 ) {
+      while (GPSMS.available() > 0)
+        GPS.encode(GPSMS.read());
+          if (millis() - last > 5000)
+          {
+            lcd_write(get_pchksum(), 0, 1, false, true );  
           }
       btn_state = digitalRead(btn);
       delay(300);
@@ -266,7 +302,7 @@ void loop()
     break;
   default:
     if ( DEBUG ) { Serial.println("Default option selected, returning to option 1..."); }
-    lcd_write("Returning to #1", 0, 0, true, true );
+    lcd_write("Returning to #1", 0, 0, false, true );
     btn_pos = 1;
     btn_state = 0;
     break;
@@ -292,7 +328,7 @@ void lcd_write( String text, int cursln1, int cursln2, bool clrlcd, bool scroll 
 /*
  * Display location on LCD.
  */
-String lcd_get_loc()
+String get_loc()
 {
   String str =
     "LOCATION   Fix Age=" +
@@ -317,7 +353,7 @@ String lcd_get_loc()
 /*
  * Display date on LCD.
  */
-String lcd_get_date()
+String get_date()
 {
   String str =
     "DATE       Fix Age=" +
@@ -336,7 +372,7 @@ String lcd_get_date()
 /*
  * Display time on LCD.
  */
-String lcd_get_time()
+String get_time()
 {
   String str =
     "TIME       Fix Age=" +
@@ -357,7 +393,7 @@ String lcd_get_time()
 /*
  * Display spd on LCD.
  */ 
-String lcd_get_spd()
+String get_spd()
 {
   String str =
     "SPEED      Fix Age=" + 
@@ -378,7 +414,7 @@ String lcd_get_spd()
 /*
  * Display course on LCD.
  */ 
-String lcd_get_course()
+String get_course()
 {
   String str =
     "COURSE     Fix Age=" +
@@ -393,7 +429,7 @@ String lcd_get_course()
 /*
  * Display altitude on LCD.
  */ 
-String lcd_get_altitude()
+String get_altitude()
 {
   String str =
     "ALTITUDE   Fix Age=" +
@@ -414,7 +450,7 @@ String lcd_get_altitude()
 /*
  * Display satellites on LCD.
  */ 
-String lcd_get_satellites()
+String get_satellites()
 {
   String str =
     "SATELLITES Fix Age=" +
@@ -427,7 +463,7 @@ String lcd_get_satellites()
 /*
  * Display HDOP on LCD.
  */ 
-String lcd_get_hdop()
+String get_hdop()
 {
   String str =
     "HDOP       Fix Age=" +
@@ -442,7 +478,7 @@ String lcd_get_hdop()
 /*
  * Display diagnostics on LCD.
  */ 
-String lcd_get_diag()
+String get_diag()
 {
   String str =
     "DIAGS      Chars=" +
@@ -457,13 +493,22 @@ String lcd_get_diag()
   return str;
 }
 /*
- * Get checksums and return as string.
+ * Get fail checksums and return as string.
  */ 
-String lcd_get_chksum()
+String get_fchksum()
 {
   String str =
     "Failed-checksum=" +
-    String(GPS.failedChecksum()) +
+    String(GPS.failedChecksum());
+  if ( DEBUG ) { Serial.println(); Serial.println( str ); }
+  return str;
+}
+/*
+ * Get pass checksums and return as string.
+ */ 
+String get_pchksum()
+{
+  String str =
     " Passed-checksum=" + 
     String(GPS.passedChecksum());
   if ( DEBUG ) { Serial.println(); Serial.println( str ); }
@@ -474,7 +519,7 @@ String lcd_get_chksum()
  */ 
 void diag()
 {
-  lcd_get_diag();
+  get_diag();
   if (GPS.charsProcessed() < 10)
     if ( DEBUG ) { Serial.println(F("WARNING: No GPS data.  Check RX and TX wiring.")); }
     last = millis();
