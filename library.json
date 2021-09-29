@@ -1,6 +1,6 @@
 {
   "name": "iFlightGPSLib",
-  "description": "A new, avr arch compatibal and customizable Arduino to iFlight GPS module NMEA parsing library",
+  "description": "A new, avr arch compatible and customizable Arduino to iFlight GPS module NMEA parsing library",
   "keywords": "gps,iflight,avr,NMEA",
   "authors":
     {
