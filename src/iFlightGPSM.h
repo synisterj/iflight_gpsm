@@ -1,5 +1,5 @@
-#ifndef __iFlightGPSLib_h
-#define __iFlightGPSLib_h
+#ifndef __iFlightGPSM_h
+#define __iFlightGPSM_h
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
@@ -264,4 +264,4 @@ private:
   bool endOfTermHandler();
 };
 
-#endif // def(__iFlightGPSLib_h)
+#endif // def(__iFlightGPSM_h)
